@@ -1,19 +1,37 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
+from django.views.generic import View
 from django.utils import timezone
-from .models import RegularPizza, Item, OrderItem, Order
+from .models import Item, OrderItem, Order
 
 # Create your views here.
+class OrderSummaryView(View):
+    def get(self, *args, **kwargs):
+        try:
+            order = Order.objects.get(user=self.request.user, ordered=False)
+            return render(self.request, 'orders/order_summary.html')
+        except ObjectDoesNotExist:
+            messages.error(self.request, "You do not have an active order.")
+            return redirect("/")
+
 def index(request):
 	if not request.user.is_authenticated:
 		return render(request, "registration/login.html", {"message": None})
 	context = {
-		"user": request.user,
-		'items': Item.objects.all()
+		'user': request.user,
+		'regular_pizzas': Item.objects.filter(category='RP'),
+        'sicilian_pizzas': Item.objects.filter(category='SP'),
+        'toppings': Item.objects.filter(category='T'),
+        'subs': Item.objects.filter(category='S'),
+        'pastas': Item.objects.filter(category='P'),
+        'dinner_platters': Item.objects.filter(category='D'),
+        'salads': Item.objects.filter(category='Sa')
 	}
 	return render(request, "orders/index.html", context)
+
 
 def login_view(request):
     username = request.POST["username"]
@@ -34,6 +52,7 @@ def item_list(request):
         'items': Item.objects.all()
     }
     return render(request, "item_list.html", context)
+
 
 def add_to_cart(request, slug):
     item = get_object_or_404(Item, slug=slug)
@@ -57,6 +76,7 @@ def add_to_cart(request, slug):
         order.items.add(order_item)
         messages.info(request, "This item was added to your cart.")
     return redirect("/", slug=slug)
+
 
 def remove_from_cart(request, slug):
     item = get_object_or_404(Item, slug=slug)

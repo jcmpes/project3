@@ -1,19 +1,21 @@
 {% extends "orders/base.html" %}
 
+{% load cart_template_tags %}
+
 {% block title %}Index{% endblock %}
 
 {% block side %}
     <h4 class="d-flex justify-content-between align-items-center mb-3">
         <span class="text-muted">Your cart</span>
-        <span class="badge badge-secondary badge-pill">0</span>
+        <span class="badge badge-secondary badge-pill">{{ request.user|cart_item_count }}</span>
     </h4>
 {% endblock %}
 
 {% block main %}
+    <!-- Regular Pizzas. -->
     <h4 class="mb-3">Regular Pizzas</h4>
-    {% for item in items %}
-        <li><span class="item-item item-title">{{ item.title }}</span>
-            
+    {% for item in regular_pizzas %}
+        <li><span class="item-item item-title">{{ item.title }}</span>           
             <span class="item-item item-price">{{ item.price }}</span>
             {% if item.price_small %}
                 <span class="item-item item-price">{{ item.price_small }}</span>
@@ -26,5 +28,91 @@
             </a>
         </li>
     {% endfor %}
-    </div>
+    <!-- Sicilian Pizzas. -->
+    <h4 class="mb-3">Sicilian Pizzas</h4>
+    {% for item in sicilian_pizzas %}
+        <li><span class="item-item item-title">{{ item.title }}</span>          
+            <span class="item-item item-price">{{ item.price }}</span>
+            {% if item.price_small %}
+                <span class="item-item item-price">{{ item.price_small }}</span>
+            {% endif %}
+            <a href="{{ item.get_add_to_cart_url }}" class="btn btn-primary btn-md my-0 p">
+                Add
+            </a>
+            <a href="{{ item.get_remove_from_cart_url }}" class="btn btn-danger btn-md my-0 p">
+                Remove
+            </a>
+        </li>
+    {% endfor %}
+    <!-- Toppings. -->
+    <h4 class="mb-3">Toppings</h4>
+    {% for item in toppings %}
+        <li><span class="item-item item-title">{{ item.title }}</span>          
+        </li>
+    {% endfor %}
+    <!-- Subs. -->
+    <h4 class="mb-3">Subs</h4>
+    {% for item in subs %}
+        <li><span class="item-item item-title">{{ item.title }}</span>          
+            <span class="item-item item-price">{{ item.price }}</span>
+            {% if item.price_small %}
+                <span class="item-item item-price">{{ item.price_small }}</span>
+            {% endif %}
+            <a href="{{ item.get_add_to_cart_url }}" class="btn btn-primary btn-md my-0 p">
+                Add
+            </a>
+            <a href="{{ item.get_remove_from_cart_url }}" class="btn btn-danger btn-md my-0 p">
+                Remove
+            </a>
+        </li>
+    {% endfor %}
+    <!-- Pastas. -->
+    <h4 class="mb-3">Pastas</h4>
+    {% for item in pastas %}
+        <li><span class="item-item item-title">{{ item.title }}</span>          
+            <span class="item-item item-price">{{ item.price }}</span>
+            {% if item.price_small %}
+                <span class="item-item item-price">{{ item.price_small }}</span>
+            {% endif %}
+            <a href="{{ item.get_add_to_cart_url }}" class="btn btn-primary btn-md my-0 p">
+                Add
+            </a>
+            <a href="{{ item.get_remove_from_cart_url }}" class="btn btn-danger btn-md my-0 p">
+                Remove
+            </a>
+        </li>
+    {% endfor %}
+    <!-- Dinner Platters. -->
+    <h4 class="mb-3">Dinner Platters</h4>
+    {% for item in dinner_platters %}
+        <li><span class="item-item item-title">{{ item.title }}</span>          
+            <span class="item-item item-price">{{ item.price }}</span>
+            {% if item.price_small %}
+                <span class="item-item item-price">{{ item.price_small }}</span>
+            {% endif %}
+            <a href="{{ item.get_add_to_cart_url }}" class="btn btn-primary btn-md my-0 p">
+                Add
+            </a>
+            <a href="{{ item.get_remove_from_cart_url }}" class="btn btn-danger btn-md my-0 p">
+                Remove
+            </a>
+        </li>
+    {% endfor %}
+    <!-- Salads. -->
+    <h4 class="mb-3">Salads</h4>
+    {% for item in salads %}
+        <li><span class="item-item item-title">{{ item.title }}</span>          
+            <span class="item-item item-price">{{ item.price }}</span>
+            {% if item.price_small %}
+                <span class="item-item item-price">{{ item.price_small }}</span>
+            {% endif %}
+            <a href="{{ item.get_add_to_cart_url }}" class="btn btn-primary btn-md my-0 p">
+                Add
+            </a>
+            <a href="{{ item.get_remove_from_cart_url }}" class="btn btn-danger btn-md my-0 p">
+                Remove
+            </a>
+        </li>
+    {% endfor %}
+
 {% endblock %}
