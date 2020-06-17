@@ -2,13 +2,29 @@
 
 {% block title %}Index{% endblock %}
 
-{% block body %}
+{% block side %}
+    <h4 class="d-flex justify-content-between align-items-center mb-3">
+        <span class="text-muted">Your cart</span>
+        <span class="badge badge-secondary badge-pill">0</span>
+    </h4>
+{% endblock %}
 
-<ul>
-    <li>Currently logged in as: {{ user.username }}</li>
-    <li><a href="{% url 'logout' %}">Logout</a></li>
-</ul>
-<h2>Regular Pizzas</h2>
-{% for pizza in regularpizzas %}
-<li></li>
+{% block main %}
+    <h4 class="mb-3">Regular Pizzas</h4>
+    {% for item in items %}
+        <li><span class="item-item item-title">{{ item.title }}</span>
+            
+            <span class="item-item item-price">{{ item.price }}</span>
+            {% if item.price_small %}
+                <span class="item-item item-price">{{ item.price_small }}</span>
+            {% endif %}
+            <a href="{{ item.get_add_to_cart_url }}" class="btn btn-primary btn-md my-0 p">
+                Add
+            </a>
+            <a href="{{ item.get_remove_from_cart_url }}" class="btn btn-danger btn-md my-0 p">
+                Remove
+            </a>
+        </li>
+    {% endfor %}
+    </div>
 {% endblock %}

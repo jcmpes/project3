@@ -1,0 +1,7 @@
+.row {
+    display: flex;
+}
+
+.item-item {
+    padding-right: 15px !important;
+}
