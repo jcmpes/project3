@@ -127,7 +127,7 @@ class Order(models.Model):
 	ordered = models.BooleanField(default=False)
 	
 	def __str__(self):
-		return '%s items: %s' % (self.user.username, self.items)
+		return '%s' % (self.user.username)
 
 	def cart_item_count(self, user):
 		if user.is_authenticated:

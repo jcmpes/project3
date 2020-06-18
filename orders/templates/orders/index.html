@@ -102,23 +102,43 @@
         </li>
     {% endfor %}
     <!-- Dinner Platters. -->
-    <h4 class="mb-3">Dinner Platters</h4>
-    {% for item in dinner_platters %}
-        <li><span class="item-item item-title">{{ item.title }}</span>          
-            <span class="item-item item-price">{{ item.price }}</span>
-            {% if item.price_small %}
-                <span class="item-item item-price">{{ item.price_small }}</span>
-            {% endif %}
-            <a href="{{ item.get_add_to_cart_url }}" class="btn btn-primary btn-md my-0 p">
-                Add
-            </a>
-            <a href="{{ item.get_remove_from_cart_url }}" class="btn btn-danger btn-md my-0 p">
-                Remove
-            </a>
-            <a href="{{ item.get_add_small_to_cart_url }}" class="btn btn-primary btn-md my-0 p">
-                Add
-            </a>
-        </li>
-    {% endfor %}
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Dinner Platters</th>
+                    <th scope="col">Large</th>
+                    <th scope="col">Small</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for item in dinner_platters %}
+                <tr>
+                    <td><span class="item-item item-title">{{ item.title }}</span></td>
+                    <td>
+                        <span class="item-item item-price">{{ item.price }}</span>
+                        <a href="{{ item.get_add_to_cart_url }}" class="btn btn-primary btn-md my-0 p">
+                            Add
+                        </a>
+                    </td>
+                    <td>
+                    {% if item.price_small %}
+                        <span class="item-item item-price">{{ item.price_small }}</span>
+                        <a href="{{ item.get_add_small_to_cart_url }}" class="btn btn-primary btn-md my-0 p">
+                            Add
+                        </a>
+                    {% endif %}
+                    </td>
+                    <td><a href="{{ item.get_remove_from_cart_url }}" class="btn btn-danger btn-md my-0 p">
+                        Remove
+                    </a></td>
+
+                </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
 
 {% endblock %}
