@@ -115,9 +115,10 @@ class OrderItem(models.Model):
 		return self.quantity * self.item.price_small
 
 	def get_final_price(self):
-		if self.item.price_small:
+		if self.size == "Small":
 			return self.get_total_small_item_price()
 		return self.get_total_item_price()
+
 
 class Order(models.Model):
 	user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
