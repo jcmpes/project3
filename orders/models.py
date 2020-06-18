@@ -69,6 +69,7 @@ class Item(models.Model):
 	category = models.CharField(choices=CATEGORY_CHOICES, max_length=2)
 	label = models.CharField(choices=LABEL_CHOICES, max_length=1, default='P')
 	slug = models.SlugField()
+	slug_small = models.SlugField()
 	
 
 	def __str__(self):
@@ -77,6 +78,11 @@ class Item(models.Model):
 	def get_add_to_cart_url(self):
 		return reverse("add-to-cart", kwargs={
 			'slug': self.slug
+		})
+
+	def get_add_small_to_cart_url(self):
+		return reverse("add-small-to-cart", kwargs={
+			'slug_small': self.slug_small
 		})
 
 	def get_remove_from_cart_url(self):
@@ -88,7 +94,7 @@ class Item(models.Model):
 class OrderItem(models.Model):
 	SIZE_CHOICES = [
 		('Large', 'Large'),
-		('Large', 'Small')
+		('Small', 'Small')
 	]
 	user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 	ordered = models.BooleanField(default=False)
@@ -121,7 +127,7 @@ class Order(models.Model):
 	ordered = models.BooleanField(default=False)
 	
 	def __str__(self):
-		return self.user.username
+		return '%s items: %s' % (self.user.username, self.items)
 
 	def cart_item_count(self, user):
 		if user.is_authenticated:
