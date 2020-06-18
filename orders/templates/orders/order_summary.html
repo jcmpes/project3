@@ -18,7 +18,8 @@
         <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">Item title</th>
+                <th scope="col">Item</th>
+                <th scope="col">Style</th>
                 <th scope="col">Price</th>
                 <th scope="col">Quantity</th>
                 <th scope="col">Total Item Price</th>
@@ -28,7 +29,8 @@
             {% for order_item in object.items.all %}
             <tr>
                 <th scope="row">{{ forloop.counter }}</th>
-                <td>{{ order_item.item.title }}</td>
+                <td>{{ order_item.item.category }}</td>
+                <td>{{ order_item.item.title }} {% if order_item.item.has_sizes %}{{ order_item.size }}{% endif %}</td>
                 <td>${{ order_item.item.price }}</td>
                 <td><a href="{% url 'remove-single-item-from-cart' order_item.item.slug %}"><i class="fas fa-minus mr-2"></i></a>
                     {{ order_item.quantity }}

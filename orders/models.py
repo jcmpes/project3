@@ -65,6 +65,7 @@ class Item(models.Model):
 	title = models.CharField(max_length=100)
 	price = models.DecimalField(max_digits=4, decimal_places=2, blank=True, null=True)
 	price_small = models.DecimalField(max_digits=4, decimal_places=2, blank=True, null=True)
+	has_sizes = models.BooleanField(default=False)
 	category = models.CharField(choices=CATEGORY_CHOICES, max_length=2)
 	label = models.CharField(choices=LABEL_CHOICES, max_length=1, default='P')
 	slug = models.SlugField()
@@ -85,13 +86,21 @@ class Item(models.Model):
 
 
 class OrderItem(models.Model):
+	SIZE_CHOICES = [
+		('Large', 'Large'),
+		('Large', 'Small')
+	]
 	user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 	ordered = models.BooleanField(default=False)
 	item = models.ForeignKey(Item, on_delete=models.CASCADE)
+	size = models.CharField(max_length=5, choices=SIZE_CHOICES, blank=True, null=True)
 	quantity = models.IntegerField(default=1)
 	
 	def __str__(self):
-		return '%s x %s' % (self.quantity, self.item.title)
+		if self.item.has_sizes == True:
+			return '%s x %s %s %s' % (self.quantity, self.size, self.item.title, self.item.category)
+		else:
+			return '%s x %s' % (self.quantity, self.item.title)
 
 	def get_total_item_price(self):
 		return self.quantity * self.item.price
