@@ -3,11 +3,12 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
+from django.urls import reverse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import View
 from django.utils import timezone
-from .models import Item, OrderItem, Order
+from .models import Item, OrderItem, Order, Topping
 
 # Create your views here.
 class OrderSummaryView(LoginRequiredMixin, View):
@@ -33,7 +34,7 @@ def index(request):
         'subs': Item.objects.filter(category='S'),
         'pastas': Item.objects.filter(category='P'),
         'dinner_platters': Item.objects.filter(category='D'),
-        'salads': Item.objects.filter(category='Sa')
+        'salads': Item.objects.filter(category='Sa'),
 	}
 	return render(request, "orders/index.html", context)
 
@@ -199,3 +200,46 @@ def remove_single_small_item_from_cart(request, slug_small):
         messages.info(request, "You do not have an active order.")
         return redirect("/", slug=slug)
     return redirect("/", slug=slug)
+
+
+@login_required
+def order_item(request, order_item_id):
+    try:
+        order_item = OrderItem.objects.get(pk=order_item_id)
+    except ObjectDoesNotExist:
+        messages.error(self.request, "Order Item does not exist.")
+        return redirect("/")
+    context = {
+        "order_item": order_item,
+        'toppings': Topping.objects.all() 
+    }
+    return render(request, "orders/order_item.html", context)
+
+
+@login_required
+def add_topping(request, order_item_id):
+    try:
+        topping_id = int(request.POST['topping'])
+        topping = Topping.objects.get(pk=topping_id)
+        order_item = OrderItem.objects.get(pk=order_item_id)
+    except KeyError:
+        messages.info(request, "KeyError.")
+        return redirect("orders/order_item.html")
+    
+    topping.orderitems.add(order_item)
+    return HttpResponseRedirect(reverse("order_item", args=(order_item_id,)))
+
+
+@login_required
+def remove_toppings(request, order_item_id):
+    try:
+        order_item = OrderItem.objects.get(pk=order_item_id)
+        qs = order_item.toppings.all().values_list('pk', flat=True)
+
+    except KeyError:
+        messages.info(request, "KeyError.")
+        return redirect("orders/order_item.html")
+
+    for i in range(qs.count()):
+        order_item.toppings.remove(qs[0])
+    return HttpResponseRedirect(reverse("order_item", args=(order_item_id,)))

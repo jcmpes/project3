@@ -61,6 +61,8 @@ LABEL_CHOICES = (
 # 	name = models.CharField(max_length=32)
 # 	price = models.DecimalField(max_digits=4, decimal_places=2)
 
+
+
 class Item(models.Model):
 	title = models.CharField(max_length=100)
 	price = models.DecimalField(max_digits=4, decimal_places=2, blank=True, null=True)
@@ -101,12 +103,18 @@ class OrderItem(models.Model):
 	item = models.ForeignKey(Item, on_delete=models.CASCADE)
 	size = models.CharField(max_length=5, choices=SIZE_CHOICES, blank=True, null=True)
 	quantity = models.IntegerField(default=1)
+
 	
 	def __str__(self):
-		if self.item.has_sizes == True:
-			return '%s x %s %s %s' % (self.quantity, self.size, self.item.title, self.item.category)
+		if (self.item.has_sizes == True) and (self.item.category == 'RP' or self.item.category == 'SP'):
+			toppings_added = ", ".join(str(t) for t in self.toppings.all())
+			return '%s x %s %s %s (%s)' % (self.quantity, self.size, self.item.title, self.item.category, toppings_added)
 		else:
 			return '%s x %s' % (self.quantity, self.item.title)
+		
+	def get_toppings(self):
+		toppings_added = ", ".join(str(t) for t in self.toppings.all())
+		return toppings_added
 
 	def get_total_item_price(self):
 		return self.quantity * self.item.price
@@ -142,3 +150,11 @@ class Order(models.Model):
 		for order_item in self.items.all():
 			total += order_item.get_final_price()
 		return total
+
+
+class Topping(models.Model):
+	title = models.CharField(max_length=32)
+	orderitems = models.ManyToManyField(OrderItem, blank=True, related_name="toppings")
+
+	def __str__(self):
+		return self.title

@@ -1,16 +1,16 @@
 from django.contrib import admin
 
-from .models import Item, OrderItem, Order
+from .models import Item, OrderItem, Order, Topping
 
 # Register your models here.
-# admin.site.register(RegularPizza)
-# admin.site.register(SicilianPizza)
-# admin.site.register(Topping)
-# admin.site.register(Sub)
-# admin.site.register(Pasta)
-# admin.site.register(DinnerPlatter)
-# admin.site.register(Salad)
+class ToppingInline(admin.StackedInline):
+    model = Topping.orderitems.through
+    extra = 1
+
+class OrderItemAdmin(admin.ModelAdmin):
+    inlines = [ToppingInline]
 
 admin.site.register(Item)
-admin.site.register(OrderItem)
+admin.site.register(OrderItem, OrderItemAdmin)
 admin.site.register(Order)
+admin.site.register(Topping)

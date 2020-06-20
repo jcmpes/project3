@@ -21,6 +21,9 @@ urlpatterns = [
     path('remove-small-from-cart/<slug>/', remove_small_from_cart, name='remove-small-from-cart'),
     path('remove-item-from-cart/<slug>/', remove_single_item_from_cart, name='remove-single-item-from-cart'),
     path('remove-small-item-from-cart/<slug_small>/', remove_single_small_item_from_cart, name='remove-single-small-item-from-cart'),
-    path('order-summary/', OrderSummaryView.as_view(), name='order-summary')
+    path('order-summary/', OrderSummaryView.as_view(), name='order-summary'),
+    path('<int:order_item_id>', views.order_item, name='order_item'),
+    path('<int:order_item_id>/add_topping', views.add_topping, name='add_topping'),
+    path('<int:order_item_id>/remove_toppings', views.remove_toppings, name='remove_toppings')
 
 ]

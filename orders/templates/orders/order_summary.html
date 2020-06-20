@@ -29,14 +29,19 @@
             {% for order_item in object.items.all %}
             <tr>
                 <th scope="row">{{ forloop.counter }}</th>
-                <!-- Category and size. -->
+                <!-- Item and size. -->
                 <td>{{ order_item.item.category }} 
                     {% if order_item.item.has_sizes %}
                         {{ order_item.size }}
                     {% endif %}
                 </td>
-                <!-- Item title. -->
-                <td>{{ order_item.item.title }}</td>
+                <!-- Item Style. -->
+                <td>
+                    {{ order_item.item.title }}
+                    {% if order_item.get_toppings %}
+                    ({{ order_item.get_toppings }})
+                    {% endif %}
+                </td>
                 <!-- Item price. -->
                 <td>
                 {% if order_item.size == "Small" %}
