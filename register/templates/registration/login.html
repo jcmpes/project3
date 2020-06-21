@@ -4,19 +4,18 @@
 
 {% load crispy_forms_tags %}
 
-{% block main %}
-{% if message %}
-    <div>
-        {{ message }}
-    </div>
-{% endif %}
-	<form action="{% url 'login' %}" method="POST" class="form-group">
-		{% csrf_token %}
-		{{ form|crispy }}
-		<p>Don't have an account? Create one <a href="/register">here</a>
-		<!-- <input name="username" type="text"/>
-		<input name="password" type="password"/> -->
+{% block login %}
+	{% if message %}
+		<div>
+			{{ message }}
+		</div>
+	{% endif %}
+		<form action="{% url 'login' %}" method="POST" class="form-group">
+			{% csrf_token %}
+			{{ form|crispy }}
 
-		<button type="submit" class="btn btn-success">Login</button>
+			<p>Don't have an account? Create one <a href="/register">here</a>
+
+			<button type="submit" class="btn btn-success">Login</button>
 
 {% endblock %}

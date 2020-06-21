@@ -37,10 +37,12 @@
                 </td>
                 <!-- Item Style. -->
                 <td>
-                    {{ order_item.item.title }}
-                    {% if order_item.get_toppings %}
-                    ({{ order_item.get_toppings }})
-                    {% endif %}
+                    <a href="{% url 'order_item' order_item.id%}">
+                        {{ order_item.item.title }}
+                        {% if order_item.get_toppings %}
+                        ({{ order_item.get_toppings }})
+                        {% endif %}
+                    </a>
                 </td>
                 <!-- Item price. -->
                 <td>

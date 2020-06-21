@@ -14,23 +14,27 @@
     </a>
 {% endblock %}
 
-{% block main %}
+{% block login %}
     <h3>{{ order_item }}</h3>
     <br><br>
     <form action="{% url 'add_topping' order_item.id %}" method="post">
         {% csrf_token %}
-        <label for="toppings">Add your toppings:</label>
-        <br><br>
-        <select name="topping" id="topping">
-            {% for topping in toppings %}
-                <option value="{{ topping.id }}">{{ topping.title }}</option>
-            {% endfor %}
-        </select>
-        <br><br>
-        <input type="submit" value="Add" class="btn btn-primary btn-md my-0 p">
+        <div class="form-group">
+            <label for="toppings">Add your toppings:</label>
+            <br><br>
+            <select name="topping" id="topping">
+                {% for topping in toppings %}
+                    <option value="{{ topping.id }}">{{ topping.title }}</option>
+                {% endfor %}
+            </select>
+            <br><br>
+            <input type="submit" value="Add" class="btn btn-primary btn-md my-0 p mb-3">
+        </div>
     </form>
     <form action="{% url 'remove_toppings' order_item.id %}" method="post">
         {% csrf_token %}
-        <input type="submit" value="Remove Toppings" class="btn btn-danger btn-md my-0 p">
+        <div class="form-group">
+            <input type="submit" value="Remove Toppings" class="btn btn-danger btn-md my-0 p">
+        </div>
     </form>
 {% endblock %}

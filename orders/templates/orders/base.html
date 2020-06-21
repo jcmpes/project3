@@ -19,24 +19,31 @@
 				</div>
 		{% endfor %}
 	{% endif %}
+	
+	<div class="row">
+		<div class="col-md-4 order-md-2 mb-4">
+			{% block side %}
+			{% endblock %}	
+		</div>
+	</div>
 		
 	<div id="content" name="content" class="container">
-		<div class="py-5 text-center">
-			<ul>
-				<li>Currently logged in as: {{ user.username }}</li>
-				<li><a href="{% url 'logout' %}">Logout</a></li>
-			</ul>
-		</div>
-		<div class="row">
-			<div class="col-md-4 order-md-2 mb-4">
-				{% block side %}
+		<div class="row justify-content-center">
+			<div class="col-md-4 order-md-1 d-flex flex-column">
+				{% block login %}
 				{% endblock %}
 			</div>
-			<div class="col-md-8 order-md-1">
+		</div>
+		<div class="row">
+			<div class="col-md-9 order-md-1">
 				{% block main %}
 				{% endblock %}
 			</div>
-		</div>			
+			<div class="col-md-3 order-md-2 mb-4">
+				{% block toppings %}
+				{% endblock %}
+			</div>
+		</div>				
 	</div>
 </body>
 </html>

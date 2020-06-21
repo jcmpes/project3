@@ -25,7 +25,7 @@ class OrderSummaryView(LoginRequiredMixin, View):
 
 def index(request):
 	if not request.user.is_authenticated:
-		return render(request, "registration/login.html", {"message": None})
+		return HttpResponseRedirect(reverse('login'))
 	context = {
 		'user': request.user,
 		'regular_pizzas': Item.objects.filter(category='RP'),

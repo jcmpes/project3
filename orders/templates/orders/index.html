@@ -14,6 +14,26 @@
     </a>
 {% endblock %}
 
+{% block toppings %}
+    <!-- Toppings. -->
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Toppings</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for item in toppings %}
+                <tr>
+                    <td><span class="item-item item-title">{{ item.title }}</span></td>                   
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+      </div>
+{% endblock %}
+
 {% block main %}
     <!-- Regular Pizzas. -->
     <div class="table-responsive">
@@ -90,24 +110,6 @@
             </tbody>
         </table>
     </div>
-      
-    <!-- Toppings. -->
-    <div class="table-responsive">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">Toppings</th>
-                </tr>
-            </thead>
-            <tbody>
-            {% for item in toppings %}
-                <tr>
-                    <td><span class="item-item item-title">{{ item.title }}</span></td>                   
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-      </div>
     
     <!-- Subs. -->
     <div class="table-responsive">
