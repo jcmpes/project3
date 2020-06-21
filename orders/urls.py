@@ -13,7 +13,8 @@ from .views import (
     remove_single_small_item_from_cart,
     order_item,
     add_topping,
-    remove_toppings
+    remove_toppings,
+    checkout
 )
 
 
@@ -28,6 +29,7 @@ urlpatterns = [
     path('order-summary/', OrderSummaryView.as_view(), name='order-summary'),
     path('<int:order_item_id>', order_item, name='order_item'),
     path('<int:order_item_id>/add_topping', add_topping, name='add_topping'),
-    path('<int:order_item_id>/remove_toppings', remove_toppings, name='remove_toppings')
+    path('<int:order_item_id>/remove_toppings', remove_toppings, name='remove_toppings'),
+    path('checkout/', checkout, name='checkout')
 
 ]

@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.db import models
 from django.urls import reverse
+from django.utils import timezone
 
 CATEGORY_CHOICES = (
 	('Regular Pizza', 'Regular Pizza'),
@@ -132,7 +133,7 @@ class Order(models.Model):
 	user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 	items = models.ManyToManyField(OrderItem)
 	start_date = models.DateTimeField(auto_now_add = True)
-	ordered_date = models.DateTimeField
+	ordered_date = models.DateTimeField(default = timezone.now)
 	ordered = models.BooleanField(default=False)
 	
 	def __str__(self):

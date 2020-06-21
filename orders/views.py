@@ -243,3 +243,11 @@ def remove_toppings(request, order_item_id):
     for i in range(qs.count()):
         order_item.toppings.remove(qs[0])
     return HttpResponseRedirect(reverse("order_item", args=(order_item_id,)))
+
+
+@login_required
+def checkout(request):
+    order = Order.objects.get(user=request.user.id, ordered=False)
+    order.ordered = True
+    order.save()
+    return render(request, 'orders/success.html')
