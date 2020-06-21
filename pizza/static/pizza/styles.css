@@ -1,0 +1,15 @@
+.row {
+    display: flex;
+}
+
+.item-item {
+    padding-right: 15px !important;
+    color:red
+}
+
+/* The sticky */
+#sidebar {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 15px;
+}

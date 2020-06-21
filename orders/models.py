@@ -3,13 +3,13 @@ from django.db import models
 from django.urls import reverse
 
 CATEGORY_CHOICES = (
-	('RP', 'Regular Pizza'),
-	('SP', 'Sicilian Pizza'),
-	('T', 'Topping'),
-	('S', 'Sub'),
-	('P', 'Pasta'),
-	('D', 'Dinner Platter'),
-	('Sa', 'Salad')	
+	('Regular Pizza', 'Regular Pizza'),
+	('Sicilian Pizza', 'Sicilian Pizza'),
+	('Topping', 'Topping'),
+	('Sub', 'Sub'),
+	('Pasta', 'Pasta'),
+	('Dinner Platter', 'Dinner Platter'),
+	('Salad', 'Salad')	
 )
 
 LABEL_CHOICES = (
@@ -68,10 +68,10 @@ class Item(models.Model):
 	price = models.DecimalField(max_digits=4, decimal_places=2, blank=True, null=True)
 	price_small = models.DecimalField(max_digits=4, decimal_places=2, blank=True, null=True)
 	has_sizes = models.BooleanField(default=False)
-	category = models.CharField(choices=CATEGORY_CHOICES, max_length=2)
+	category = models.CharField(choices=CATEGORY_CHOICES, max_length=16)
 	label = models.CharField(choices=LABEL_CHOICES, max_length=1, default='P')
 	slug = models.SlugField()
-	slug_small = models.SlugField()
+	slug_small = models.SlugField(blank=True, null=True)
 	
 
 	def __str__(self):
@@ -106,7 +106,7 @@ class OrderItem(models.Model):
 
 	
 	def __str__(self):
-		if (self.item.has_sizes == True) and (self.item.category == 'RP' or self.item.category == 'SP'):
+		if (self.item.has_sizes == True) and (self.item.category == 'Regular Pizza' or self.item.category == 'Sicilian Pizza'):
 			toppings_added = ", ".join(str(t) for t in self.toppings.all())
 			return '%s x %s %s %s (%s)' % (self.quantity, self.size, self.item.title, self.item.category, toppings_added)
 		else:

@@ -28,13 +28,13 @@ def index(request):
 		return HttpResponseRedirect(reverse('login'))
 	context = {
 		'user': request.user,
-		'regular_pizzas': Item.objects.filter(category='RP'),
-        'sicilian_pizzas': Item.objects.filter(category='SP'),
-        'toppings': Item.objects.filter(category='T'),
-        'subs': Item.objects.filter(category='S'),
-        'pastas': Item.objects.filter(category='P'),
-        'dinner_platters': Item.objects.filter(category='D'),
-        'salads': Item.objects.filter(category='Sa'),
+		'regular_pizzas': Item.objects.filter(category='Regular Pizza'),
+        'sicilian_pizzas': Item.objects.filter(category='Sicilian Pizza'),
+        'toppings': Item.objects.filter(category='Topping'),
+        'subs': Item.objects.filter(category='Sub'),
+        'pastas': Item.objects.filter(category='Pasta'),
+        'dinner_platters': Item.objects.filter(category='Dinner Platter'),
+        'salads': Item.objects.filter(category='Salad'),
 	}
 	return render(request, "orders/index.html", context)
 

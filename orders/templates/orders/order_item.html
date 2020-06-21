@@ -1,18 +1,7 @@
 {% extends "orders/base.html" %}
 
-{% load cart_template_tags %}
-
 {% block title %}Index{% endblock %}
 
-{% block side %}
-    <a href="{% url 'order-summary' %}">
-        <h4 class="d-flex justify-content-between align-items-center mb-3">
-        
-            <span class="text-muted">Your cart</span>
-            <span class="badge badge-secondary badge-pill">{{ request.user|cart_item_count }}</span>   
-        </h4>
-    </a>
-{% endblock %}
 
 {% block login %}
     <h3>{{ order_item }}</h3>
