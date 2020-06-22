@@ -11,19 +11,26 @@
         <div class="form-group">
             <label for="toppings">Add your toppings:</label>
             <br><br>
-            <select name="topping" id="topping">
-                {% for topping in toppings %}
-                    <option value="{{ topping.id }}">{{ topping.title }}</option>
-                {% endfor %}
-            </select>
-            <br><br>
-            <input type="submit" value="Add" class="btn btn-primary btn-md my-0 p mb-3">
+            <div class="input-group mb-3">
+                <select class="w-100" name="topping" id="topping">
+                    {% for topping in toppings %}
+                        <option value="{{ topping.id }}">{{ topping.title }}</option>
+                    {% endfor %}
+                </select>
+                <br><br>
+            </div>
+            
+            <input type="submit" value="Add" class="btn btn-primary btn-md my-0 p mb-3 btn-block">
         </div>
     </form>
     <form action="{% url 'remove_toppings' order_item.id %}" method="post">
         {% csrf_token %}
         <div class="form-group">
-            <input type="submit" value="Remove Toppings" class="btn btn-danger btn-md my-0 p">
+            <input type="submit" value="Remove Toppings" class="btn btn-danger btn-md my-0 p btn-block">
         </div>
     </form>
+    <div class="form-group">
+        <a href="/"></a><button class="btn btn-success btn-block mb-3">Continue shopping</button></a>
+        <a href="/order-summary"></a><button class="btn btn-warning btn-block">Go to cart</button></a>
+    </div>
 {% endblock %}
