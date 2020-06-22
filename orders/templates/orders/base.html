@@ -3,7 +3,8 @@
 <head>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 	{% load static %}
-	<link rel="stylesheet" href="{% static "pizza/styles.css" %}">
+	<link rel="shortcut icon" href="{% static "orders/favicon.ico" %}">
+	<link rel="stylesheet" href="{% static "orders/styles.css" %}">
 	<title>{% block title %}{% endblock %}</title>
 	<script src="https://kit.fontawesome.com/3ca820a6c8.js" crossorigin="anonymous"></script>
 </head>
@@ -11,6 +12,11 @@
 	<!-- Navbar. -->
 	{% load cart_template_tags %}
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		{% if request.user.is_staff %}
+		<ul class="nav navbar-nav navbar-left">
+			<li><a href="/orders">Orders</a></li>
+		</ul>
+		{% endif %}
 		{% if request.user.is_authenticated %}
 		<div class="navbar-collapse collapse w-100 dual-collapse2 order-1 order-md-0">
 			<ul class="navbar-nav ml-auto text-center">

@@ -1,0 +1,19 @@
+{% extends 'orders/base.html' %}
+
+{% block main %}
+<h1>Orders Stack:</h1>
+    <div class="d-flex flex-column-reverse">
+        {% for order in orders %}
+        <div class="p-2">
+            <ul>
+                <li>{{ order.user }}</li>
+                {% for item in order.show_items %}
+                    <li>{{ item }}</li>
+                {% endfor %}
+                <li>{{ order.ordered_date }}</li>
+                <li>{{ order.ordered }}</li>
+            </ul>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}

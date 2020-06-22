@@ -152,6 +152,8 @@ class Order(models.Model):
 			total += order_item.get_final_price()
 		return total
 
+	def show_items(self):
+		return self.items.all()
 
 class Topping(models.Model):
 	title = models.CharField(max_length=32)

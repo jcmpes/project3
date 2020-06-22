@@ -14,7 +14,8 @@ from .views import (
     order_item,
     add_topping,
     remove_toppings,
-    checkout
+    checkout,
+    orders
 )
 
 
@@ -30,6 +31,7 @@ urlpatterns = [
     path('<int:order_item_id>', order_item, name='order_item'),
     path('<int:order_item_id>/add_topping', add_topping, name='add_topping'),
     path('<int:order_item_id>/remove_toppings', remove_toppings, name='remove_toppings'),
-    path('checkout/', checkout, name='checkout')
+    path('checkout/', checkout, name='checkout'),
+    path('orders/', orders, name='orders')
 
 ]

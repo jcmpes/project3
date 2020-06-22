@@ -1,5 +1,6 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
@@ -22,6 +23,7 @@ class OrderSummaryView(LoginRequiredMixin, View):
         except ObjectDoesNotExist:
             messages.error(self.request, "You do not have an active order.")
             return redirect("/")
+
 
 def index(request):
 	if not request.user.is_authenticated:
@@ -211,7 +213,7 @@ def order_item(request, order_item_id):
         return redirect("/")
     context = {
         "order_item": order_item,
-        'toppings': Topping.objects.all() 
+        "toppings": Topping.objects.all() 
     }
     return render(request, "orders/order_item.html", context)
 
@@ -247,7 +249,21 @@ def remove_toppings(request, order_item_id):
 
 @login_required
 def checkout(request):
-    order = Order.objects.get(user=request.user.id, ordered=False)
+    try:
+        order = Order.objects.get(user=request.user.id, ordered=False)
+    except ObjectDoesNotExist:
+        messages.info(request, "Order has been placed already.")
+        return render(request, "orders/success.html")
+
     order.ordered = True
     order.save()
     return render(request, 'orders/success.html')
+
+
+@staff_member_required
+def orders(request):
+    placed_orders = Order.objects.filter(ordered=True)
+    context = {
+        "orders": placed_orders
+    }
+    return render(request, 'orders/orders.html', context)
